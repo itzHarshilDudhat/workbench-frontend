@@ -1,9 +1,9 @@
-import { FC, useCallback, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { ReduxState } from "../../helper/interface";
-import { setIsSuperUser, setToken } from "../../store/slice/Base";
-import LogoutConformation from "../modal/LogoutConformation";
+import { FC, useCallback, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { ReduxState } from '../../helper/interface';
+import { setIsSuperUser, setToken } from '../../store/slice/Base';
+import LogoutConformation from '../modal/LogoutConformation';
 
 /**
  *  taken ref from https://flowbite.com/docs/components/sidebar/
@@ -13,23 +13,18 @@ const Menu: FC = () => {
   const [logoutPopup, setLogoutPopup] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isSuperUser = useSelector(
-    (state: ReduxState) => state.base.isSuperUser
-  );
+  const isSuperUser = useSelector((state: ReduxState) => state.base.isSuperUser);
 
   const onLogout = useCallback(() => {
     dispatch(setToken(null));
     dispatch(setIsSuperUser(false));
-    navigate("/auth/login");
+    navigate('/auth/login');
   }, [dispatch, navigate]);
 
   return (
     <>
       {logoutPopup ? (
-        <LogoutConformation
-          onAction={onLogout}
-          onCancel={() => setLogoutPopup(false)}
-        />
+        <LogoutConformation onAction={onLogout} onCancel={() => setLogoutPopup(false)} />
       ) : null}
       <button
         data-drawer-target="separator-sidebar"
@@ -58,7 +53,7 @@ const Menu: FC = () => {
         id="separator-sidebar"
         // className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
         className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${
-          sidebarVisible ? "translate-x-0" : "-translate-x-full"
+          sidebarVisible ? 'translate-x-0' : '-translate-x-full'
         } sm:translate-x-0`}
         aria-label="Sidebar"
       >
@@ -66,7 +61,7 @@ const Menu: FC = () => {
           <ul className="space-y-2 font-medium mt-2">
             <li>
               <div
-                onClick={() => navigate("/")}
+                onClick={() => navigate('/income')}
                 className="cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <svg
@@ -86,7 +81,7 @@ const Menu: FC = () => {
               <li>
                 <div
                   className="cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                  onClick={() => navigate("/manage-user")}
+                  onClick={() => navigate('/manage-user')}
                 >
                   <svg
                     className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
