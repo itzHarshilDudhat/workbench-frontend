@@ -9,7 +9,7 @@ import LogoutConformation from '../modal/LogoutConformation';
  *  taken ref from https://flowbite.com/docs/components/sidebar/
  */
 const Menu: FC = () => {
-  const [sidebarVisible, setSidebarVisible] = useState(true);
+  const [sidebarVisible, setSidebarVisible] = useState(false);
   const [logoutPopup, setLogoutPopup] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -21,20 +21,26 @@ const Menu: FC = () => {
     navigate('/auth/login');
   }, [dispatch, navigate]);
 
+  const onClick = useCallback(
+    (url: string) => {
+      navigate(url);
+      setSidebarVisible(false);
+    },
+    [navigate]
+  );
+
   return (
     <>
       {logoutPopup ? (
         <LogoutConformation onAction={onLogout} onCancel={() => setLogoutPopup(false)} />
       ) : null}
       <button
-        data-drawer-target="separator-sidebar"
-        data-drawer-toggle="separator-sidebar"
-        aria-controls="separator-sidebar"
         type="button"
         onClick={() => setSidebarVisible(!sidebarVisible)}
         className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
       >
         <span className="sr-only">Open sidebar</span>
+        {/* Use a different icon or label for open/close based on sidebar visibility */}
         <svg
           className="w-6 h-6"
           aria-hidden="true"
@@ -42,11 +48,13 @@ const Menu: FC = () => {
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path
-            clipRule="evenodd"
-            fillRule="evenodd"
-            d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
-          ></path>
+          {sidebarVisible ? (
+            // Icon for close sidebar
+            <path d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
+          ) : (
+            // Icon for open sidebar
+            <path d="M14 4H3a1 1 0 100 2h11a1 1 0 100-2zM14 9H3a1 1 0 100 2h11a1 1 0 100-2zM3 15h8a1 1 0 100-2H3a1 1 0 100 2z"></path>
+          )}
         </svg>
       </button>
       <aside
@@ -61,7 +69,7 @@ const Menu: FC = () => {
           <ul className="space-y-2 font-medium mt-2">
             <li>
               <div
-                onClick={() => navigate('/income')}
+                onClick={() => onClick('/income')}
                 className="cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <svg
@@ -81,7 +89,7 @@ const Menu: FC = () => {
               <li>
                 <div
                   className="cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                  onClick={() => navigate('/manage-user')}
+                  onClick={() => onClick('/manage-user')}
                 >
                   <svg
                     className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
