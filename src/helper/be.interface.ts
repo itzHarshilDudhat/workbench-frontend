@@ -1,6 +1,5 @@
 export interface Income {
   _id: string;
-  name: string;
   amount: number;
   userId: string;
   description: string;
@@ -9,11 +8,16 @@ export interface Income {
 
 export interface Expense {
   _id: string;
-  name: string;
   amount: number;
   account: string;
   subAccount: string;
   userId: string;
   description: string;
   date: string;
+}
+
+export interface ExpenseGroup {
+  _id: string;
+  amount: number;
+  numOfValues: number;
 }

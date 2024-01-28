@@ -2,7 +2,7 @@ import { Props } from "../../helper/interface";
 
 const Table = <T,>(props: Props<T>) => {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-full">
       <div className="overflow-x-auto">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -32,8 +32,8 @@ const Table = <T,>(props: Props<T>) => {
                             col.align === "right"
                               ? "end"
                               : col.align === "center"
-                              ? "center"
-                              : "start"
+                                ? "center"
+                                : "start"
                           }`}
                         >
                           <div className="text-sm font-medium text-gray-900">

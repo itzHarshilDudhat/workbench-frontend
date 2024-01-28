@@ -3,6 +3,7 @@ import { Form, FormikProps } from "formik";
 import { IExpense } from "../../helper/interface";
 import CustomDatePicker from "../datepicker/DatePicker";
 import moment from "moment";
+import ReactSelect from "react-select";
 
 interface Props extends FormikProps<IExpense> {
   cancelButtonRef: React.MutableRefObject<null>;
@@ -10,6 +11,13 @@ interface Props extends FormikProps<IExpense> {
   loading: boolean;
   isEditFrom?: boolean;
 }
+
+const accountOptions = ["Labour", "Building", "B/W"];
+
+const selectOptions = accountOptions.map((item) => ({
+  value: item,
+  label: item,
+}));
 
 const ExpenseForm = (props: Props) => {
   const {
@@ -29,35 +37,7 @@ const ExpenseForm = (props: Props) => {
           <div className="sm:flex sm:items-start sm:justify-center w-full">
             <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left w-full">
               <div className="flex flex-row justify-around">
-                <div className="relative z-0 mt-4 sm:mr-4">
-                  <input
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    type="text"
-                    id="name_input"
-                    name="name"
-                    disabled={loading}
-                    autoFocus
-                    value={values.name}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    placeholder=" "
-                  />
-                  <label
-                    htmlFor="name_input"
-                    className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                  >
-                    Name
-                  </label>
-                  {errors.name && touched.name && (
-                    <p
-                      id="standard_error_help"
-                      className="mt-2 text-xs text-red-600 dark:text-red-400 italic error-text"
-                    >
-                      {errors.name}
-                    </p>
-                  )}
-                </div>
-                <div className="relative z-0 mt-4">
+                <div className="relative z-0 mt-4 sm:mr-4 w-full description-input">
                   <CustomDatePicker
                     id="date_input"
                     name="date"
@@ -113,24 +93,27 @@ const ExpenseForm = (props: Props) => {
               </div>
               <div className="mt-4 flex flex-row justify-around">
                 <div className="relative z-0 mt-4 sm:mr-4 w-full description-input">
-                  <input
-                    type="text"
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    id="account_input"
-                    name="account"
-                    disabled={loading}
+                  <ReactSelect
+                    className="basic-single"
+                    classNamePrefix="select"
+                    isDisabled={loading}
                     autoFocus
-                    value={values.account}
-                    onChange={handleChange}
+                    options={selectOptions}
+                    value={selectOptions.find(
+                      (item) => item.value === values.account
+                    )}
+                    onChange={(e) => setFieldValue("account", e?.value ?? "")}
                     onBlur={handleBlur}
-                    placeholder=" "
+                    placeholder="Select an option"
+                    menuPortalTarget={document.body}
+                    styles={{
+                      menuPortal: (base) => ({
+                        ...base,
+                        zIndex: 9999,
+                        cursor: "pointer",
+                      }),
+                    }}
                   />
-                  <label
-                    htmlFor="account_input"
-                    className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                  >
-                    Account
-                  </label>
                   {errors.account && touched.account && (
                     <p
                       id="standard_error_help"
@@ -141,6 +124,7 @@ const ExpenseForm = (props: Props) => {
                   )}
                 </div>
               </div>
+
               <div className="mt-4 flex flex-row justify-around">
                 <div className="relative z-0 mt-4 sm:mr-4 w-full description-input">
                   <input

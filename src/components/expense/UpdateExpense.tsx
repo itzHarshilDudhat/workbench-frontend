@@ -24,7 +24,6 @@ const UpdateExpense = (props: Props) => {
     async (data: IExpense, { resetForm }: FormikHelpers<IExpense>) => {
       try {
         const payload = {
-          name: data.name,
           date: data.date,
           amount: data.amount,
           account: data.account,

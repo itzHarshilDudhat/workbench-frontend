@@ -18,6 +18,7 @@ export const API = {
   // Income
   createExpense: `/manage-expense/create-expense`,
   getExpense: `/manage-expense/get-expense`,
+  getExpenseGroup: `/manage-expense/get-expense-group`,
   updateExpense: `/manage-expense/update-expense`,
   deleteExpense: `/manage-expense/delete-expense`,
 };

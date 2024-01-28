@@ -20,7 +20,6 @@ const AddIncome = (props: Props) => {
 
   const initialValues: IIncome = {
     date: new Date().toString(),
-    name: "",
     description: "",
     amount: "",
   };
@@ -29,7 +28,6 @@ const AddIncome = (props: Props) => {
     async (data: IIncome, { resetForm }: FormikHelpers<IIncome>) => {
       try {
         const payload = {
-          name: data.name,
           date: data.date,
           amount: data.amount,
           description: data.description,

@@ -20,7 +20,6 @@ const AddExpense = (props: Props) => {
 
   const initialValues: IExpense = {
     date: new Date().toString(),
-    name: "",
     description: "",
     account: "",
     subAccount: "",
@@ -31,7 +30,6 @@ const AddExpense = (props: Props) => {
     async (data: IExpense, { resetForm }: FormikHelpers<IExpense>) => {
       try {
         const payload = {
-          name: data.name,
           date: data.date,
           amount: data.amount,
           account: data.account,

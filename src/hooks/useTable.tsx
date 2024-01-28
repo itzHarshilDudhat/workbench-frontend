@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import useFetch from "./Fetch";
 import { PaginationAvailability, TableResponse } from "../helper/interface";
 
@@ -6,11 +6,13 @@ const convertIntoURL = (obj: Record<string, string>) => {
   return new URLSearchParams(obj).toString();
 };
 
-const useTable = <T,>(url: string) => {
+const useTable = <T, S = null>(url: string) => {
   const [limit, setLimit] = useState(10);
+  const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [data, setData] = useState<T[]>([]);
+  const [allData, setAllData] = useState<(TableResponse<T[]> & S) | null>(null);
   const [paginationAvailability, setPaginationAvailability] =
     useState<PaginationAvailability>({
       pre: false,
@@ -18,7 +20,9 @@ const useTable = <T,>(url: string) => {
     });
 
   const onAppendData = useCallback(
-    (response: TableResponse<T[]>) => {
+    (response: TableResponse<T[]> & S) => {
+      setAllData(response);
+
       const resultTotal = response.total;
 
       setTotal(resultTotal);
@@ -37,10 +41,19 @@ const useTable = <T,>(url: string) => {
     [limit, page, paginationAvailability]
   );
 
-  const { error, loading, reload } = useFetch<TableResponse<T[]>>(
-    `${url}?limit=${limit}&page=${page}`,
+  const { error, loading, reload } = useFetch<TableResponse<T[]> & S>(
+    `${url}?limit=${limit}&page=${page}&search=${search}`,
     onAppendData
   );
+
+  React.useEffect(() => {
+    const getData = setTimeout(() => {
+      reload(`${url}?limit=${limit}&page=${page}&search=${search}`);
+    }, 500);
+
+    return () => clearTimeout(getData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search]);
 
   const onSetPage = useCallback((payload: number) => {
     setPage(payload);
@@ -57,11 +70,12 @@ const useTable = <T,>(url: string) => {
         `${url}?${convertIntoURL({
           page: nextValue.toString(),
           limit: limit.toString(),
+          search,
         })}`
       );
       setPage(nextValue);
     }
-  }, [limit, page, paginationAvailability.next, url, reload]);
+  }, [limit, page, paginationAvailability.next, url, reload, search]);
 
   const onPreviousPage = useCallback(() => {
     if (paginationAvailability.pre) {
@@ -71,18 +85,21 @@ const useTable = <T,>(url: string) => {
         `${url}?${convertIntoURL({
           page: nextValue.toString(),
           limit: limit.toString(),
+          search,
         })}`
       );
 
       setPage(nextValue);
     }
-  }, [limit, page, paginationAvailability.pre, url, reload]);
+  }, [limit, page, paginationAvailability.pre, url, reload, search]);
 
   return {
     data,
     error,
     loading,
     reload,
+    allData,
+    setSearch,
     pagination: { limit, page, total, paginationAvailability },
     setPagination: { onSetPage, onSetLimit, onPreviousPage, onNextPage },
   };

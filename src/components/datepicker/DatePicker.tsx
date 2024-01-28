@@ -66,7 +66,7 @@ const CustomDatePicker = ({
         prevMonthButtonDisabled,
         nextMonthButtonDisabled,
       }) => (
-        <div className="m-2 flex justify-between">
+        <div className="m-2 flex justify-between w-full">
           <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
             {"<"}
           </button>

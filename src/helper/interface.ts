@@ -15,7 +15,6 @@ export interface ICreateUser extends IUser {
 
 export interface IIncome {
   _id?: string;
-  name: string;
   description: string;
   amount: string;
   date: string;
@@ -23,7 +22,6 @@ export interface IIncome {
 
 export interface IExpense {
   _id?: string;
-  name: string;
   description: string;
   account: string;
   subAccount: string;
