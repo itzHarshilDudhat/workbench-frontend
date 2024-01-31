@@ -201,7 +201,7 @@ const ExpenseForm = (props: Props) => {
           <button
             type="submit"
             disabled={loading}
-            className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
+            className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:mt-3 sm:w-auto"
           >
             Submit
           </button>

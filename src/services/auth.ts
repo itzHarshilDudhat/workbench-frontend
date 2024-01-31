@@ -6,6 +6,7 @@ import { AxiosCustomError, IUser, IUserLogin } from "../helper/interface";
 import { successToast } from "../helper/toast";
 import { setIsSuperUser, setToken } from "../store/slice/Base";
 import { NavigateFunction } from "react-router-dom";
+import React from "react";
 
 export const onSubmitSignup = async (
   payload: IUser,
@@ -32,8 +33,10 @@ export const onSubmitLogin = async (
   payload: IUserLogin,
   resetForm: () => void,
   dispatch: Dispatch,
-  navigate: NavigateFunction
+  navigate: NavigateFunction,
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
+  setLoading(true);
   try {
     const response = await dataService.post(API.login, payload);
 
@@ -45,8 +48,10 @@ export const onSubmitLogin = async (
 
     navigate("/");
 
+    setLoading(false);
     resetForm();
   } catch (error) {
+    setLoading(false);
     return errorHandler(error as AxiosCustomError);
   }
 };

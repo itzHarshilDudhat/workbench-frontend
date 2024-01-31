@@ -22,6 +22,7 @@ const UpdateExpense = (props: Props) => {
 
   const onSubmit = useCallback(
     async (data: IExpense, { resetForm }: FormikHelpers<IExpense>) => {
+      setLoading(true);
       try {
         const payload = {
           date: data.date,
@@ -35,7 +36,6 @@ const UpdateExpense = (props: Props) => {
 
         successToast(response.data.message);
 
-        setLoading(true);
         resetForm();
         props.onAction();
       } catch (error) {

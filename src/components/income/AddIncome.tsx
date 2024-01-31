@@ -26,6 +26,7 @@ const AddIncome = (props: Props) => {
 
   const onSubmit = useCallback(
     async (data: IIncome, { resetForm }: FormikHelpers<IIncome>) => {
+      setLoading(true);
       try {
         const payload = {
           date: data.date,
@@ -36,7 +37,6 @@ const AddIncome = (props: Props) => {
 
         successToast(response.data.message);
 
-        setLoading(true);
         resetForm();
         props.onAction();
       } catch (error) {

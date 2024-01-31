@@ -22,6 +22,7 @@ const UpdateUser = (props: Props) => {
 
   const onSubmit = useCallback(
     async (data: ICreateUser, { resetForm }: FormikHelpers<ICreateUser>) => {
+      setLoading(true);
       try {
         const payload = {
           userId: props.userId,
@@ -33,7 +34,6 @@ const UpdateUser = (props: Props) => {
 
         successToast(response.data.message);
 
-        setLoading(true);
         resetForm();
         props.onAction();
       } catch (error) {

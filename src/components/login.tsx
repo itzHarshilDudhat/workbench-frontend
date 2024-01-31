@@ -4,6 +4,7 @@ import { onLoginValidation } from "../helper/validation";
 import { onSubmitLogin } from "../services/auth";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const initialValues: IUserLogin = {
   userName: "",
@@ -13,12 +14,13 @@ const initialValues: IUserLogin = {
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = (
     values: IUserLogin,
     { resetForm }: FormikHelpers<IUserLogin>
   ) => {
-    onSubmitLogin(values, resetForm, dispatch, navigate);
+    onSubmitLogin(values, resetForm, dispatch, navigate, setLoading);
   };
 
   return (
@@ -111,6 +113,7 @@ const Login = () => {
                 <button
                   className="mt-4 bg-blue-600 hover:bg-blue-700 px-4 py-2 text-white uppercase rounded text-xs tracking-wider"
                   type="submit"
+                  disabled={loading}
                 >
                   Login
                 </button>
