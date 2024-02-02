@@ -12,7 +12,19 @@ interface Props extends FormikProps<IExpense> {
   isEditFrom?: boolean;
 }
 
-const accountOptions = ["Labour", "Building", "B/W"];
+const accountOptions = [
+  "B/W & Plastering",
+  "Barbending",
+  "Building material",
+  "Fuel",
+  "Ghar kharch",
+  "Labour",
+  "Material",
+  "Material transport",
+  "Parchuran",
+  "Personal",
+  "Shuttering",
+];
 
 const selectOptions = accountOptions.map((item) => ({
   value: item,

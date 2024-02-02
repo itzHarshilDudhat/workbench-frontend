@@ -46,7 +46,7 @@ export const onSubmitLogin = async (
 
     dispatch(setIsSuperUser(response.data.data?.isSuperUser ?? false));
 
-    navigate("/");
+    navigate("/expense");
 
     setLoading(false);
     resetForm();
